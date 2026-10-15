@@ -1,10 +1,14 @@
 import express from "express";
 import errorHandler from "./middlewares/error-handler.js";
+import authRoutes from "./modules/auth/auth.routes.js";
+import transactionsRoutes from "./modules/transactions/transactions.routes.js";
 
 const app = express();
 
 // Parse incoming JSON request bodies.
 app.use(express.json());
+app.use("/api/auth", authRoutes);
+app.use("/api/transactions", transactionsRoutes);
 
 // Health check endpoint.
 app.get("/api/health", (req, res) => {
