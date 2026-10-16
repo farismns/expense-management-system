@@ -1,10 +1,12 @@
-# Phase 3 — Authentication & Authorization
+# Phase 3 — Authentication, Authorization & Transaction CRUD
 
 ## 1. Overview
 
-Phase 3 implements authentication and authorization for the Expense Management System backend.
+Phase 3 implements authentication, authorization, and transaction CRUD functionality for the Expense Management System backend.
 
-The objective is to authenticate users, protect private API endpoints, and enforce ownership restrictions so users can only access and manage their own data.
+The objective is to authenticate users, protect private API endpoints, enforce ownership restrictions, and provide complete transaction management operations.
+
+Users must only be able to access and manage their own data.
 
 ## 2. Technology
 
@@ -14,6 +16,7 @@ The objective is to authenticate users, protect private API endpoints, and enfor
 - bcrypt for password hashing
 - JSON Web Token (JWT) for authentication
 - Postman for API testing
+- Git and GitHub for version control
 
 ## 3. Implemented Features
 
@@ -42,28 +45,29 @@ The objective is to authenticate users, protect private API endpoints, and enfor
 
 Returns information for the authenticated user.
 
-### 3.5 Transaction Access Control
+### 3.5 Transaction Management
 
-Transaction endpoints use authentication middleware.
+Transaction endpoints use authentication middleware and enforce user ownership restrictions.
 
-Implemented endpoints:
+| Method | Endpoint                | Purpose                                                | Status      |
+| ------ | ----------------------- | ------------------------------------------------------ | ----------- |
+| GET    | `/api/transactions`     | Retrieve the authenticated user's transactions         | Implemented |
+| GET    | `/api/transactions/:id` | Retrieve a transaction owned by the authenticated user | Implemented |
+| POST   | `/api/transactions`     | Create a transaction for the authenticated user        | Implemented |
+| PATCH  | `/api/transactions/:id` | Update a transaction owned by the authenticated user   | Implemented |
+| DELETE | `/api/transactions/:id` | Delete a transaction owned by the authenticated user   | Pending     |
 
-| Method | Endpoint                | Purpose                                                |
-| ------ | ----------------------- | ------------------------------------------------------ |
-| GET    | `/api/transactions`     | Retrieve the authenticated user's transactions         |
-| GET    | `/api/transactions/:id` | Retrieve a transaction owned by the authenticated user |
-| POST   | `/api/transactions`     | Create a transaction for the authenticated user        |
-| PATCH  | `/api/transactions/:id` | Update a transaction owned by the authenticated user   |
-
-Transaction queries enforce user ownership. Category references are also checked against the authenticated user's ownership.
+Transaction queries must enforce user ownership. Category references must also be checked against the authenticated user's ownership.
 
 ## 4. Validation and Error Handling
 
 The backend validates request input, including transaction dates, amounts, transaction types, and category IDs.
 
-Transaction updates preserve fields omitted from a PATCH request. Explicitly invalid values are rejected by validation.
+Transaction updates preserve fields omitted from a PATCH request. Invalid values must be rejected by validation.
 
-The API uses HTTP status codes to distinguish successful requests, validation errors, authentication failures, and resources that cannot be found.
+The API uses appropriate HTTP status codes to distinguish successful requests, validation errors, authentication failures, and resources that cannot be found.
+
+Deletion must also enforce transaction ownership and prevent users from deleting transactions belonging to other users.
 
 ## 5. Testing
 
@@ -79,14 +83,17 @@ The following scenarios have been tested manually using Postman:
 - Rejection of invalid transaction update input.
 - Rejection of invalid transaction IDs.
 
+The DELETE endpoint and its related scenarios remain to be implemented and tested.
+
 Testing has been performed manually. Automated test coverage has not yet been established.
 
 ## 6. Git Workflow
 
-The authentication and transaction update work was developed on feature branches and merged into `main` through GitHub Pull Requests.
+The authentication and transaction management work is developed using feature branches and merged into `main` through GitHub Pull Requests.
 
 - PR #13: Authentication and transaction creation.
 - PR #14: Transaction update endpoint.
+- Pending: Transaction deletion endpoint.
 
 Commits follow the Conventional Commits format.
 
@@ -94,13 +101,15 @@ Commits follow the Conventional Commits format.
 
 - Implement and test transaction deletion.
 - Review authentication and authorization edge cases.
+- Verify transaction CRUD operations and ownership restrictions.
 - Establish automated tests.
-- Continue with the remaining transaction CRUD requirements.
 
-Category management, budgets, frontend integration, Docker, and deployment remain part of subsequent development work.
+Category management, budgets, and related business logic are part of Phase 4. React frontend development, frontend-backend integration, testing and debugging, Docker, and deployment remain part of subsequent phases.
 
 ## 8. Phase Status
 
-Authentication and the implemented transaction endpoints have been manually tested. Phase 3 should be marked complete after the remaining scope and security checks have been reviewed.
+Authentication, authorization, and the existing transaction endpoints have been implemented and manually tested according to the current development progress.
 
-The transaction CRUD roadmap must remain in progress until the remaining operations are implemented and tested.
+Phase 3 remains in progress until transaction deletion, the required security checks, and the relevant testing have been completed.
+
+The phase documentation and roadmap must be updated when the remaining work has been verified.
