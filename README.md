@@ -42,6 +42,7 @@ This project follows a **Learning by Doing** approach. Each development phase fo
 - [Phase 0 — Requirement & Problem Analysis](./docs/phase-00-requirement-analysis.md)
 - [Phase 1 — Database Design](./docs/phase-01-database-design.md)
 - [Phase 2 — Backend Setup](./docs/phase-02-backend-setup.md)
+- [Phase 3 — Authentication & Authorization](./docs/phase-03-authentication-authorization.md)
 
 ## Development Approach
 
