@@ -8,6 +8,7 @@ router.use(authenticate);
 
 router.get("/", transactionsController.getTransactions);
 router.get("/:id", transactionsController.getTransactionById);
+router.patch("/:id", transactionsController.updateTransaction);
 router.post("/", transactionsController.createTransaction);
 
 export default router;
