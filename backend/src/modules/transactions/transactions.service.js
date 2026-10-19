@@ -141,9 +141,25 @@ const updateUserTransaction = async (transactionId, userId, input) => {
   return updatedTransaction;
 };
 
+const deleteUserTransaction = async (transactionId, userId) => {
+  const deletedTransaction = await transactionsRepository.deleteByIdAndUserId(
+    transactionId,
+    userId,
+  );
+
+  if (!deletedTransaction) {
+    const error = new Error("Transaction not found");
+    error.status = 404;
+    throw error;
+  }
+
+  return deletedTransaction;
+};
+
 export default {
   createUserTransaction,
   getUserTransactions,
   getUserTransactionById,
   updateUserTransaction,
+  deleteUserTransaction,
 };

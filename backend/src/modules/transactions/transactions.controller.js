@@ -102,9 +102,36 @@ const updateTransaction = async (req, res, next) => {
   }
 };
 
+const deleteTransaction = async (req, res, next) => {
+  try {
+    const transactionId = Number(req.params.id);
+
+    if (!Number.isSafeInteger(transactionId) || transactionId <= 0) {
+      return res.status(400).json({
+        status: "error",
+        message: "Invalid transaction ID",
+      });
+    }
+
+    const transaction = await transactionsService.deleteUserTransaction(
+      transactionId,
+      req.user.id,
+    );
+
+    return res.status(200).json({
+      status: "success",
+      message: "Transaction deleted successfully",
+      data: { transaction },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 export default {
   createTransaction,
   getTransactions,
   getTransactionById,
   updateTransaction,
+  deleteTransaction,
 };

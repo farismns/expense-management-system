@@ -10,5 +10,6 @@ router.get("/", transactionsController.getTransactions);
 router.get("/:id", transactionsController.getTransactionById);
 router.patch("/:id", transactionsController.updateTransaction);
 router.post("/", transactionsController.createTransaction);
+router.delete("/:id", transactionsController.deleteTransaction);
 
 export default router;
