@@ -19,15 +19,14 @@ This project follows a **Learning by Doing** approach. Each development phase fo
 - [x] Phase 0 — Requirement & Problem Analysis
 - [x] Phase 1 — Database Design
 - [x] Phase 2 — Backend Setup & Express REST API Foundation
-- [ ] Phase 3 — Authentication & Authorization
-- [ ] Phase 4 — CRUD Transactions
-- [ ] Phase 5 — Categories, Budgets & Business Logic
-- [ ] Phase 6 — React Frontend
-- [ ] Phase 7 — Frontend ↔ Backend Integration
-- [ ] Phase 8 — Testing & Debugging
-- [ ] Phase 9 — Docker
-- [ ] Phase 10 — Deployment
-- [ ] Phase 11 — Advanced Challenges
+- [x] Phase 3 — Authentication, Authorization & Transaction CRUD
+- [ ] Phase 4 — Categories, Budgets & Business Logic
+- [ ] Phase 5 — React Frontend
+- [ ] Phase 6 — Frontend ↔ Backend Integration
+- [ ] Phase 7 — Testing & Debugging
+- [ ] Phase 8 — Docker
+- [ ] Phase 9 — Deployment
+- [ ] Phase 10 — Advanced Challenges
 
 ## Security Principles
 
