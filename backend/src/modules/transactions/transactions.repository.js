@@ -108,9 +108,30 @@ const updateByIdAndUserId = async (
   return rows[0] ?? null;
 };
 
+const deleteByIdAndUserId = async (transactionId, userId) => {
+  const query = `
+    DELETE FROM transactions
+    WHERE id = $1
+      AND user_id = $2
+    RETURNING
+      id,
+      date,
+      amount,
+      type,
+      category_id,
+      description
+  `;
+
+  const values = [transactionId, userId];
+
+  const { rows } = await pool.query(query, values);
+  return rows[0] ?? null;
+};
+
 export default {
   create,
   findAllByUserId,
   findByIdAndUserId,
   updateByIdAndUserId,
+  deleteByIdAndUserId,
 };
