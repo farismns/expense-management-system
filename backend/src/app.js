@@ -2,6 +2,8 @@ import express from "express";
 import errorHandler from "./middlewares/error-handler.js";
 import authRoutes from "./modules/auth/auth.routes.js";
 import transactionsRoutes from "./modules/transactions/transactions.routes.js";
+import categoriesRoutes from "./modules/categories/categories.routes.js";
+import budgetsRoutes from "./modules/budgets/budgets.routes.js";
 
 const app = express();
 
@@ -9,6 +11,8 @@ const app = express();
 app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/transactions", transactionsRoutes);
+app.use("/api/categories", categoriesRoutes);
+app.use("/api/budgets", budgetsRoutes);
 
 // Health check endpoint.
 app.get("/api/health", (req, res) => {
