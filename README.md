@@ -1,4 +1,4 @@
-\# Expense Management System
+# Expense Management System
 
 A full-stack expense management system built with React, Node.js, Express.js, and PostgreSQL.
 
@@ -22,7 +22,7 @@ This project follows a **Learning by Doing** approach. Each development phase fo
 - [x] Phase 1 — Database Design
 - [x] Phase 2 — Backend Setup & Express REST API Foundation
 - [x] Phase 3 — Authentication, Authorization & Transaction CRUD
-- [ ] Phase 4 — Categories, Budgets & Business Logic
+- [x] Phase 4 — Categories, Budgets & Business Logic
 - [ ] Phase 5 — React Frontend
 - [ ] Phase 6 — Frontend ↔ Backend Integration
 - [ ] Phase 7 — Testing & Debugging
@@ -43,7 +43,9 @@ This project follows a **Learning by Doing** approach. Each development phase fo
 - [Phase 0 — Requirement & Problem Analysis](./docs/phase-00-requirement-analysis.md)
 - [Phase 1 — Database Design](./docs/phase-01-database-design.md)
 - [Phase 2 — Backend Setup](./docs/phase-02-backend-setup.md)
-- [Phase 3 — Authentication & Authorization](./docs/phase-03-authentication-authorization.md)
+- [Phase 3 — Authentication, Authorization & Transaction CRUD](./docs/phase-03-authentication-authorization-CRUD.md)
+- [Phase 4 — Categories, Budgets & Business Logic](./docs/phase-04-categories-budgets-business-logic.md)
+- [Phase 4B — Financial Summary API](./docs/phase-04b-financial-summary.md)
 
 ## Development Approach
 
