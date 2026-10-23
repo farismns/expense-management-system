@@ -2,6 +2,35 @@ import transactionsRepository from "./transactions.repository.js";
 import categoriesRepository from "../categories/categories.repository.js";
 import transactionsValidation from "./transactions.validation.js";
 
+const validateTransactionCategory = async ({ userId, type, categoryId }) => {
+  if (categoryId == null) {
+    if (type === "expense") {
+      const error = new Error("Category is required for expense transactions");
+      error.status = 400;
+      throw error;
+    }
+
+    return;
+  }
+
+  const category = await categoriesRepository.findByIdAndUserId(
+    categoryId,
+    userId,
+  );
+
+  if (!category) {
+    const error = new Error("Category not found for this user");
+    error.status = 400;
+    throw error;
+  }
+
+  if (category.type !== type) {
+    const error = new Error("Category type must match transaction type");
+    error.status = 400;
+    throw error;
+  }
+};
+
 const createUserTransaction = async (userId, input) => {
   const { date, amount, type, category_id, description } = input;
 
@@ -11,24 +40,11 @@ const createUserTransaction = async (userId, input) => {
     throw error;
   }
 
-  if (type === "expense" && category_id == null) {
-    const error = new Error("Category is required for expense transactions");
-    error.status = 400;
-    throw error;
-  }
-
-  if (category_id != null) {
-    const category = await categoriesRepository.findByIdAndUserId(
-      category_id,
-      userId,
-    );
-
-    if (!category) {
-      const error = new Error("Category not found for this user");
-      error.status = 400;
-      throw error;
-    }
-  }
+  await validateTransactionCategory({
+    userId,
+    type,
+    categoryId: category_id,
+  });
 
   return transactionsRepository.create({
     date,
@@ -60,20 +76,20 @@ const getUserTransactionById = async (transactionId, userId) => {
 };
 
 const updateUserTransaction = async (transactionId, userId, input) => {
-  // 1. Pastikan input berbentuk object JSON.
+  // Pastikan input berbentuk object JSON.
   if (input === null || typeof input !== "object" || Array.isArray(input)) {
     const error = new Error("Request body must be a JSON object");
     error.status = 400;
     throw error;
   }
 
-  // 2. Ambil transaksi yang dimiliki pengguna yang sedang login.
+  // Ambil transaksi yang dimiliki pengguna yang sedang login.
   const existingTransaction = await getUserTransactionById(
     transactionId,
     userId,
   );
 
-  // 3. Konversi date dari database (objek Date) ke string "YYYY-MM-DD"
+  // Konversi date dari database (objek Date) ke string "YYYY-MM-DD"
   const existingDateFormatted = existingTransaction.date
     ? new Date(existingTransaction.date).toISOString().split("T")[0]
     : existingTransaction.date;
@@ -100,7 +116,7 @@ const updateUserTransaction = async (transactionId, userId, input) => {
         : input.description,
   };
 
-  // 4. Validasi data akhir setelah penggabungan.
+  // Validasi data akhir setelah penggabungan.
   const errors = transactionsValidation.validateCreateTransaction(updatedData);
 
   if (errors.length > 0) {
@@ -110,21 +126,13 @@ const updateUserTransaction = async (transactionId, userId, input) => {
     throw error;
   }
 
-  // 5. Pastikan kategori yang digunakan milik pengguna tersebut.
-  if (updatedData.category_id != null) {
-    const category = await categoriesRepository.findByIdAndUserId(
-      updatedData.category_id,
-      userId,
-    );
+  await validateTransactionCategory({
+    userId,
+    type: updatedData.type,
+    categoryId: updatedData.category_id,
+  });
 
-    if (!category) {
-      const error = new Error("Category not found for this user");
-      error.status = 400;
-      throw error;
-    }
-  }
-
-  // 6. Simpan perubahan dengan pembatasan kepemilikan di repository.
+  // Simpan perubahan dengan pembatasan kepemilikan di repository.
   const updatedTransaction = await transactionsRepository.updateByIdAndUserId(
     transactionId,
     userId,

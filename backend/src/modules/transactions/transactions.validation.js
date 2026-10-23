@@ -1,6 +1,15 @@
 const validateCreateTransaction = (input) => {
   const errors = [];
 
+  if (input === null || typeof input !== "object" || Array.isArray(input)) {
+    return [
+      {
+        field: "body",
+        message: "Request body must be a JSON object",
+      },
+    ];
+  }
+
   const { date, amount, type, category_id, description } = input;
 
   // Validate date.
