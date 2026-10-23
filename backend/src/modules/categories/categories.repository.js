@@ -1,22 +1,24 @@
 import pool from "../../config/database.js";
 
-const create = async ({ name, user_id }) => {
+const CATEGORY_FIELDS = "id, name, type, is_default";
+
+const create = async ({ name, user_id, type }) => {
   const query = `
-    INSERT INTO categories (name, user_id)
-    VALUES ($1, $2)
-    RETURNING id, name
+    INSERT INTO categories (name, user_id, type, is_default)
+    VALUES ($1, $2, $3, FALSE)
+    RETURNING ${CATEGORY_FIELDS}
   `;
 
-  const { rows } = await pool.query(query, [name, user_id]);
+  const { rows } = await pool.query(query, [name, user_id, type]);
   return rows[0];
 };
 
 const findAllByUserId = async (userId) => {
   const query = `
-    SELECT id, name
+    SELECT ${CATEGORY_FIELDS}
     FROM categories
     WHERE user_id = $1
-    ORDER BY id ASC
+    ORDER BY type ASC, is_default DESC, name ASC
   `;
 
   const { rows } = await pool.query(query, [userId]);
@@ -25,10 +27,9 @@ const findAllByUserId = async (userId) => {
 
 const findByIdAndUserId = async (categoryId, userId) => {
   const query = `
-    SELECT id, name
+    SELECT ${CATEGORY_FIELDS}
     FROM categories
-    WHERE id = $1
-      AND user_id = $2
+    WHERE id = $1 AND user_id = $2
     LIMIT 1
   `;
 
@@ -42,11 +43,11 @@ const updateByIdAndUserId = async (categoryId, userId, name) => {
     SET name = $1
     WHERE id = $2
       AND user_id = $3
-    RETURNING id, name
+      AND is_default = FALSE
+    RETURNING ${CATEGORY_FIELDS}
   `;
 
   const { rows } = await pool.query(query, [name, categoryId, userId]);
-
   return rows[0] ?? null;
 };
 
@@ -55,7 +56,8 @@ const deleteByIdAndUserId = async (categoryId, userId) => {
     DELETE FROM categories
     WHERE id = $1
       AND user_id = $2
-    RETURNING id, name
+      AND is_default = FALSE
+    RETURNING ${CATEGORY_FIELDS}
   `;
 
   const { rows } = await pool.query(query, [categoryId, userId]);
