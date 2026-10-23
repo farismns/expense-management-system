@@ -134,16 +134,29 @@ function TransactionsPage() {
   function handleChange(event) {
     const { name, value } = event.target;
 
-    setFormData((previous) => ({
-      ...previous,
-      [name]: value,
-    }));
+    setFormData((previous) => {
+      if (name === "type") {
+        return {
+          ...previous,
+          type: value,
+          category_id: "",
+        };
+      }
+
+      return {
+        ...previous,
+        [name]: value,
+      };
+    });
+
+    setFormError("");
   }
 
   function openCreateForm() {
     setEditingId(null);
     setFormData(createInitialForm());
     setFormError("");
+    setError("");
     setSuccess("");
     setShowForm(true);
   }
@@ -162,6 +175,25 @@ function TransactionsPage() {
 
     if (!Number.isFinite(amount) || amount <= 0) {
       setFormError("Amount must be greater than zero.");
+      return;
+    }
+
+    if (
+      formData.category_id &&
+      !categories.some(
+        (category) =>
+          String(category.id) === String(formData.category_id) &&
+          category.type === formData.type,
+      )
+    ) {
+      setFormError(
+        "The selected category does not match the transaction type.",
+      );
+      return;
+    }
+
+    if (formData.type === "expense" && !formData.category_id) {
+      setFormError("Please select a category for expense transactions.");
       return;
     }
 
@@ -200,6 +232,10 @@ function TransactionsPage() {
 
   const categoryNames = new Map(
     categories.map((category) => [Number(category.id), category.name]),
+  );
+
+  const filteredCategories = categories.filter(
+    (category) => category.type === formData.type,
   );
 
   function handleEdit(transaction) {
@@ -328,10 +364,20 @@ function TransactionsPage() {
                   name="category_id"
                   value={formData.category_id}
                   onChange={handleChange}
-                  disabled={categoryLoading || categories.length === 0}
+                  disabled={categoryLoading || Boolean(categoryError)}
+                  required={formData.type === "expense"}
                 >
-                  <option value="">Uncategorized</option>
-                  {categories.map((category) => (
+                  <option value="">
+                    {categoryLoading
+                      ? "Loading categories..."
+                      : categoryError
+                        ? "Failed to load categories"
+                        : formData.type === "expense"
+                          ? "Select expense category"
+                          : "Select income category"}
+                  </option>
+
+                  {filteredCategories.map((category) => (
                     <option key={category.id} value={category.id}>
                       {category.name}
                     </option>
@@ -341,6 +387,15 @@ function TransactionsPage() {
                 {categoryError && (
                   <small className="form-error">{categoryError}</small>
                 )}
+
+                {!categoryLoading &&
+                  !categoryError &&
+                  filteredCategories.length === 0 && (
+                    <small className="form-error">
+                      No categories available for this transaction type. Please
+                      create a category first.
+                    </small>
+                  )}
               </div>
 
               <div className="form-group transaction-description-field">
