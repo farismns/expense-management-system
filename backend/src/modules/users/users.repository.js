@@ -25,7 +25,44 @@ const create = async ({ email, password, fullname }) => {
   return rows[0];
 };
 
+const findPublicById = async (id) => {
+  const { rows } = await pool.query(
+    "SELECT id, email, fullname FROM users WHERE id = $1 LIMIT 1",
+    [id],
+  );
+  return rows[0] ?? null;
+};
+
+const findByIdWithPassword = async (id) => {
+  const { rows } = await pool.query(
+    "SELECT id, email, password, fullname FROM users WHERE id = $1 LIMIT 1",
+    [id],
+  );
+  return rows[0] ?? null;
+};
+
+const updateProfileById = async (id, { email, fullname }) => {
+  const { rows } = await pool.query(
+    `UPDATE users SET email = $1, fullname = $2
+     WHERE id = $3 RETURNING id, email, fullname`,
+    [email, fullname, id],
+  );
+  return rows[0] ?? null;
+};
+
+const updatePasswordById = async (id, password) => {
+  const { rows } = await pool.query(
+    "UPDATE users SET password = $1 WHERE id = $2 RETURNING id",
+    [password, id],
+  );
+  return rows[0] ?? null;
+};
+
 export default {
   findByEmail,
   create,
+  findPublicById,
+  findByIdWithPassword,
+  updateProfileById,
+  updatePasswordById,
 };

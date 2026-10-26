@@ -6,12 +6,13 @@ import transactionsRoutes from "./modules/transactions/transactions.routes.js";
 import categoriesRoutes from "./modules/categories/categories.routes.js";
 import budgetsRoutes from "./modules/budgets/budgets.routes.js";
 import summaryRoutes from "./modules/summary/summary.routes.js";
+import usersRoutes from "./modules/users/users.routes.js";
 
 const app = express();
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: process.env.FRONTEND_ORIGIN || "http://localhost:5173",
     methods: ["GET", "POST", "PATCH", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
   }),
@@ -24,6 +25,7 @@ app.use("/api/transactions", transactionsRoutes);
 app.use("/api/categories", categoriesRoutes);
 app.use("/api/budgets", budgetsRoutes);
 app.use("/api/summary", summaryRoutes);
+app.use("/api/users", usersRoutes);
 
 // Health check endpoint.
 app.get("/api/health", (req, res) => {
