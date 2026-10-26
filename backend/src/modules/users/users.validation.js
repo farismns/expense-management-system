@@ -56,6 +56,8 @@ const validatePasswordChange = (input) => {
 
   if (typeof input.newPassword !== "string" || input.newPassword.length < 8) {
     errors.push("New password must be at least 8 characters long");
+  } else if (Buffer.byteLength(input.newPassword, "utf8") > 72) {
+    errors.push("New password must not exceed 72 bytes");
   }
 
   return errors;

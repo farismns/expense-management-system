@@ -1,11 +1,10 @@
 import { Outlet } from "react-router-dom";
-import { useEffect, useState } from "react";
 import Sidebar from "./Sidebar.jsx";
-import { api } from "../../api.js";
+import { useAuth } from "../../context/AuthContext.jsx";
 
 function AppLayout() {
-  const [name, setName] = useState("My Account");
-  useEffect(() => { queueMicrotask(async () => { try { const result = await api.getMyProfile(); setName(result?.data?.user?.fullname || "My Account"); } catch { setName("My Account"); } }); }, []);
+  const { user } = useAuth();
+  const name = user?.fullname || "My Account";
   return (
     <div className="app-layout">
       <Sidebar />
