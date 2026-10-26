@@ -6,15 +6,13 @@ This project follows a **Learning by Doing** approach. Each development phase fo
 
 ## Tech Stack
 
-- **Frontend:** React
-- **Backend:** Node.js, Express.js
+- **Frontend:** React and Vite
+- **Backend:** Node.js and Express.js
 - **Database:** PostgreSQL
-- **Authentication:** Token-based authentication
+- **Authentication:** JWT
 - **API Testing:** Postman
-- **Version Control:** Git, GitHub
-- **Containerization:** Docker
-
-## Project Roadmap
+- **Version Control:** Git and GitHub
+- **Containerization:** Docker (planned)
 
 ## Project Roadmap
 
@@ -23,12 +21,19 @@ This project follows a **Learning by Doing** approach. Each development phase fo
 - [x] Phase 2 — Backend Setup & Express REST API Foundation
 - [x] Phase 3 — Authentication, Authorization & Transaction CRUD
 - [x] Phase 4 — Categories, Budgets & Business Logic
-- [ ] Phase 5 — React Frontend
-- [ ] Phase 6 — Frontend ↔ Backend Integration
-- [ ] Phase 7 — Testing & Debugging
+- [x] Phase 5 — React Frontend (static verification complete)
+- [ ] Phase 6 — Frontend ↔ Backend Integration (live API verification pending)
+- [ ] Phase 7 — Testing & Debugging (automated tests pending)
 - [ ] Phase 8 — Docker
 - [ ] Phase 9 — Deployment
 - [ ] Phase 10 — Advanced Challenges
+
+## Run locally
+
+1. Copy `backend/.env.example` to `backend/.env`, set database values and a strong `JWT_SECRET`.
+2. Ensure the PostgreSQL schema documented in `docs/phase-01-database-design.md` is available.
+3. In `backend`, run `npm install` then `npm run dev`.
+4. In `frontend`, create `.env` with `VITE_API_BASE_URL=http://localhost:3000/api`, then run `npm install` and `npm run dev`.
 
 ## Security Principles
 
@@ -46,9 +51,10 @@ This project follows a **Learning by Doing** approach. Each development phase fo
 - [Phase 3 — Authentication, Authorization & Transaction CRUD](./docs/phase-03-authentication-authorization-CRUD.md)
 - [Phase 4 — Categories, Budgets & Business Logic](./docs/phase-04-categories-budgets-business-logic.md)
 - [Phase 4B — Financial Summary API](./docs/phase-04b-financial-summary.md)
+- [Phase 5 — React Frontend](./docs/phase-05-react-frontend.md)
+- [Phase 6 — Integration](./docs/phase-06-integration.md)
+- [Phase 7 — Testing](./docs/phase-07-testing.md)
 
-## Development Approach
+## Verification
 
-The project is developed incrementally. Each phase includes implementation, testing, code review, and documentation before moving to the next phase.
-
-Advanced technologies and optimizations will be introduced only when they provide a clear benefit to the application's requirements.
+`npm run lint` and `npm run build` pass in the frontend. Live API testing needs a configured PostgreSQL database; see Phase 6 and Phase 7 for exact scope.

@@ -1,0 +1,9 @@
+import { useState } from "react";
+import { Link, useSearchParams } from "react-router-dom";
+import { api } from "../api.js";
+function ResetPasswordPage() {
+  const [params] = useSearchParams(); const [password, setPassword] = useState(""); const [confirm, setConfirm] = useState(""); const [message, setMessage] = useState(""); const [error, setError] = useState(""); const [loading, setLoading] = useState(false);
+  async function submit(event) { event.preventDefault(); if (!params.get("token") || password.length < 8 || password !== confirm) { setError("Use a valid reset link and matching passwords of at least 8 characters."); return; } setLoading(true); setError(""); try { const result = await api.resetPassword(params.get("token"), password); setMessage(result?.message || "Password reset successfully."); } catch (requestError) { setError(requestError.message || "Unable to reset password."); } finally { setLoading(false); } }
+  return <main className="auth-container"><section className="auth-card"><h1>Choose a New Password</h1>{message ? <p className="form-success" role="status">{message} <Link to="/login">Log in</Link></p> : <form onSubmit={submit}><div className="form-group"><label htmlFor="new-password">New password</label><input id="new-password" type="password" value={password} onChange={(event) => setPassword(event.target.value)} minLength="8" required autoComplete="new-password" /></div><div className="form-group"><label htmlFor="confirm-password">Confirm password</label><input id="confirm-password" type="password" value={confirm} onChange={(event) => setConfirm(event.target.value)} minLength="8" required autoComplete="new-password" /></div>{error && <p className="form-error" role="alert">{error}</p>}<button disabled={loading}>{loading ? "Saving..." : "Reset Password"}</button></form>}</section></main>;
+}
+export default ResetPasswordPage;
