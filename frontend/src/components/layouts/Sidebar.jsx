@@ -5,6 +5,7 @@ const navigationItems = [
   { label: "Transactions", path: "/transactions" },
   { label: "Categories", path: "/categories" },
   { label: "Budgets", path: "/budgets" },
+  { label: "My Profile", path: "/profile" },
 ];
 
 function Sidebar() {
@@ -12,6 +13,7 @@ function Sidebar() {
 
   function handleLogout() {
     localStorage.removeItem("token");
+    sessionStorage.removeItem("token");
     navigate("/login", { replace: true });
   }
 

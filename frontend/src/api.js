@@ -2,7 +2,7 @@ const API_BASE_URL =
   import.meta.env.VITE_API_BASE_URL || "http://localhost:3000/api";
 
 async function request(path, options = {}) {
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("token") || sessionStorage.getItem("token");
 
   const headers = {
     ...(options.body ? { "Content-Type": "application/json" } : {}),
@@ -57,8 +57,16 @@ export const api = {
       method: "POST",
       body: JSON.stringify(data),
     }),
+  forgotPassword: (email) => request("/auth/forgot-password", { method: "POST", body: JSON.stringify({ email }) }),
+  resetPassword: (token, password) => request("/auth/reset-password", { method: "POST", body: JSON.stringify({ token, password }) }),
 
   me: () => request("/auth/me"),
+
+  getMyProfile: () => request("/users/me"),
+
+  updateMyProfile: (data) =>
+    request("/users/me", { method: "PATCH", body: JSON.stringify(data) }),
+  changeMyPassword: (data) => request("/users/me/password", { method: "PATCH", body: JSON.stringify(data) }),
 
   getTransactions: (params = "") =>
     request(`/transactions${params ? `?${params}` : ""}`),
@@ -71,7 +79,23 @@ export const api = {
 
   getCategories: () => request("/categories"),
 
+  createCategory: (data) =>
+    request("/categories", { method: "POST", body: JSON.stringify(data) }),
+
+  updateCategory: (id, data) =>
+    request(`/categories/${id}`, { method: "PATCH", body: JSON.stringify(data) }),
+
+  deleteCategory: (id) => request(`/categories/${id}`, { method: "DELETE" }),
+
   getBudgets: () => request("/budgets"),
+
+  createBudget: (data) =>
+    request("/budgets", { method: "POST", body: JSON.stringify(data) }),
+
+  updateBudget: (id, data) =>
+    request(`/budgets/${id}`, { method: "PUT", body: JSON.stringify(data) }),
+
+  deleteBudget: (id) => request(`/budgets/${id}`, { method: "DELETE" }),
 
   getSummary: (startDate, endDate) => {
     const params = new URLSearchParams({ startDate, endDate });

@@ -14,6 +14,7 @@ function LoginForm() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(location.state?.message || "");
   const [loading, setLoading] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -51,7 +52,10 @@ function LoginForm() {
         throw new Error("Login response did not include an access token.");
       }
 
-      localStorage.setItem("token", token);
+      const storage = rememberMe ? localStorage : sessionStorage;
+      localStorage.removeItem("token");
+      sessionStorage.removeItem("token");
+      storage.setItem("token", token);
 
       navigate("/dashboard", { replace: true });
     } catch (err) {
@@ -86,6 +90,7 @@ function LoginForm() {
               required
             />
           </div>
+          <label className="remember-me"><input type="checkbox" checked={rememberMe} onChange={(event) => setRememberMe(event.target.checked)} /> Remember me</label>
 
           <div className="form-group">
             <label htmlFor="password">Password</label>
@@ -114,6 +119,7 @@ function LoginForm() {
         <p className="auth-footer">
           Don't have an account? <Link to="/register">Register</Link>
         </p>
+        <p className="auth-footer"><Link to="/forgot-password">Forgot your password?</Link></p>
       </section>
     </main>
   );

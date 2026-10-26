@@ -7,8 +7,9 @@ System. The goal is to provide a usable MVP that connects to the
 existing Express backend and enables users to review and manage their
 financial data through a responsive interface.
 
-**Status:** MVP source code created; review and backend integration
-verification are still pending.
+**Status:** Core MVP implementation completed and frontend static checks were
+verified on 2026-10-26. Live API verification still requires a configured
+PostgreSQL database and a running backend.
 
 ## 2. Objectives
 
@@ -26,8 +27,6 @@ verification are still pending.
 -   **Vite** --- development server and build tooling.
 -   **JavaScript** --- frontend application logic.
 -   **CSS** --- styling and responsive layouts.
--   **Recharts** --- financial charts.
--   **Lucide React** --- interface icons.
 
 ## 4. MVP Scope
 
@@ -193,7 +192,16 @@ running backend during integration testing.
 
 7.  Open the local URL printed by Vite in the terminal.
 
-## 8. Current Limitations and Verification Notes
+## 8. Verified Implementation and Limitations
+
+-   `CategoriesPage` implements list/create/update/delete and protects default
+    categories in the UI; API methods use the verified category contracts.
+-   `BudgetsPage` implements list/create/update/delete, limits selection to
+    expense categories, validates positive amounts and date ranges, and explains
+    the backend's non-overlapping-period restriction.
+-   The dashboard reads the actual `summary` and `expenses` response shapes.
+-   `npm run lint` and `npm run build` completed successfully on 2026-10-26.
+-   No chart or icon library is installed or required by the current interface.
 
 -   Dependency installation and production build have not yet been
     verified in the artifact-generation environment.
