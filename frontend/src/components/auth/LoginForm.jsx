@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { api } from "../../api.js";
+import { useAuth } from "../../context/AuthContext.jsx";
 
 function LoginForm() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { setUser } = useAuth();
 
   const [formData, setFormData] = useState({
     email: "",
@@ -52,10 +54,16 @@ function LoginForm() {
         throw new Error("Login response did not include an access token.");
       }
 
+      const user = result?.data?.user;
+      if (!user) {
+        throw new Error("Login response did not include user data.");
+      }
+
       const storage = rememberMe ? localStorage : sessionStorage;
       localStorage.removeItem("token");
       sessionStorage.removeItem("token");
       storage.setItem("token", token);
+      setUser(user);
 
       navigate("/dashboard", { replace: true });
     } catch (err) {
