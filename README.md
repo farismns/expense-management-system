@@ -44,7 +44,7 @@ The application is deployed on Vercel, with a Node.js and Express.js backend con
 - [x] Phase 4B — Financial Summary API
 - [x] Phase 5 — React Frontend
 - [x] Phase 6 — Frontend ↔ Backend Integration (production login verified; broader feature verification pending)
-- [x] Phase 7 — Testing & Debugging (automated tests and broader regression testing pending)
+- [x] Phase 7 — Testing & Debugging (initial production verification complete; automated tests and broader regression testing pending)
 - [ ] Phase 8 — Docker
 - [x] Phase 9 — Initial Production Deployment (Vercel and Neon)
 - [ ] Phase 10 — Advanced Challenges
@@ -128,9 +128,13 @@ For production, configure `VITE_API_BASE_URL` in the frontend deployment environ
 
 ## Verification
 
-Frontend linting and production builds have passed during development. The deployed application has also been verified to load the backend health endpoint and complete a production login.
+## Verification
 
-Broader end-to-end testing, regression testing, and automated test coverage remain ongoing. See the Phase 6 and Phase 7 documentation for the integration and testing scope.
+Frontend linting and production builds have passed during development. The deployed application has been verified to load the backend health endpoint and complete a production login.
+
+Initial production integration is working. However, automated tests, broader end-to-end testing, and regression testing across all features remain ongoing.
+
+See the Phase 6 and Phase 7 documentation for the integration and testing scope.
 
 ## Feedback
 
