@@ -1,17 +1,37 @@
 # Expense Management System
 
-A full-stack expense management system built with React, Node.js, Express.js, and PostgreSQL.
+A full-stack web application for managing personal income, expenses, categories, and budgets, built with React, Node.js, Express.js, and PostgreSQL.
 
 This project follows a **Learning by Doing** approach. Each development phase focuses on requirement analysis, implementation, debugging, testing, documentation, and code review. The goal is to build a maintainable application while developing practical software engineering skills.
 
+## Live Demo
+
+**Try the application:** [Expense Management System](https://frontend-sable-six-56.vercel.app)
+
+The application is deployed on Vercel, with a Node.js and Express.js backend connected to a PostgreSQL database hosted on Neon.
+
+> This is a learning project. Please use test data when exploring the application.
+
+## Features
+
+- User registration and login
+- JWT-based authentication
+- Income and expense transaction management
+- Transaction CRUD operations
+- Default and custom categories
+- Budget management
+- Financial summary dashboard
+- User-specific data access and authorization
+
 ## Tech Stack
 
-- **Frontend:** React and Vite
-- **Backend:** Node.js and Express.js
-- **Database:** PostgreSQL
-- **Authentication:** JWT
+- **Frontend:** React, Vite
+- **Backend:** Node.js, Express.js
+- **Database:** PostgreSQL (Neon)
+- **Authentication:** JSON Web Token (JWT)
 - **API Testing:** Postman
 - **Version Control:** Git and GitHub
+- **Deployment:** Vercel
 - **Containerization:** Docker (planned)
 
 ## Project Roadmap
@@ -21,19 +41,68 @@ This project follows a **Learning by Doing** approach. Each development phase fo
 - [x] Phase 2 — Backend Setup & Express REST API Foundation
 - [x] Phase 3 — Authentication, Authorization & Transaction CRUD
 - [x] Phase 4 — Categories, Budgets & Business Logic
-- [x] Phase 5 — React Frontend (static verification complete)
-- [ ] Phase 6 — Frontend ↔ Backend Integration (live API verification pending)
-- [ ] Phase 7 — Testing & Debugging (automated tests pending)
+- [x] Phase 4B — Financial Summary API
+- [x] Phase 5 — React Frontend
+- [x] Phase 6 — Frontend ↔ Backend Integration (production login verified; broader feature verification pending)
+- [x] Phase 7 — Testing & Debugging (automated tests and broader regression testing pending)
 - [ ] Phase 8 — Docker
-- [ ] Phase 9 — Deployment
+- [x] Phase 9 — Initial Production Deployment (Vercel and Neon)
 - [ ] Phase 10 — Advanced Challenges
 
-## Run locally
+## Run Locally
 
-1. Copy `backend/.env.example` to `backend/.env`, set database values and a strong `JWT_SECRET`.
-2. Ensure the PostgreSQL schema documented in `docs/phase-01-database-design.md` is available.
-3. In `backend`, run `npm install` then `npm run dev`.
-4. In `frontend`, create `.env` with `VITE_API_BASE_URL=http://localhost:3000/api`, then run `npm install` and `npm run dev`.
+### Prerequisites
+
+- Node.js and npm
+- PostgreSQL, either a local instance or a compatible hosted database
+- Git
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/farismns/expense-management-system.git
+cd expense-management-system
+```
+
+### 2. Configure the backend
+
+Copy `backend/.env.example` to `backend/.env` and configure the required environment variables.
+
+For a local PostgreSQL database, configure the database connection values expected by the backend. For a hosted PostgreSQL database, configure `DATABASE_URL` with the connection string provided by the database provider.
+
+Set a strong `JWT_SECRET` and keep all credentials private.
+
+Ensure the database schema documented in `docs/phase-01-database-design.md` has been created before running the application.
+
+Install dependencies and start the backend:
+
+```bash
+cd backend
+npm install
+npm run dev
+```
+
+The backend development server runs on `http://localhost:3000` by default.
+
+### 3. Configure the frontend
+
+Create `frontend/.env` with the following value for local development:
+
+```env
+VITE_API_BASE_URL=http://localhost:3000/api
+```
+
+Install dependencies and start the frontend:
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Open the local URL printed by Vite, usually `http://localhost:5173`.
+
+For production, configure `VITE_API_BASE_URL` in the frontend deployment environment to point to the deployed backend API base URL. Because Vite variables are embedded during the build, rebuild and redeploy the frontend after changing them.
 
 ## Security Principles
 
@@ -41,7 +110,9 @@ This project follows a **Learning by Doing** approach. Each development phase fo
 - Protect private API endpoints with authentication middleware.
 - Enforce authorization so users can only access and manage their own data.
 - Validate incoming requests and handle errors consistently.
+- Configure CORS to allow trusted frontend origins.
 - Keep credentials and environment-specific configuration out of version control.
+- Use test data when evaluating the public demo.
 
 ## Documentation
 
@@ -57,4 +128,14 @@ This project follows a **Learning by Doing** approach. Each development phase fo
 
 ## Verification
 
-`npm run lint` and `npm run build` pass in the frontend. Live API testing needs a configured PostgreSQL database; see Phase 6 and Phase 7 for exact scope.
+Frontend linting and production builds have passed during development. The deployed application has also been verified to load the backend health endpoint and complete a production login.
+
+Broader end-to-end testing, regression testing, and automated test coverage remain ongoing. See the Phase 6 and Phase 7 documentation for the integration and testing scope.
+
+## Feedback
+
+Feedback, bug reports, and suggestions are welcome. Please open a [GitHub Issue](https://github.com/farismns/expense-management-system/issues) with steps to reproduce any issue you encounter.
+
+## Author
+
+Developed as a Learning by Doing project to strengthen practical skills in full-stack web development, REST API design, authentication, database management, Git workflows, and application deployment.
