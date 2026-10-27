@@ -128,7 +128,9 @@ For production, configure `VITE_API_BASE_URL` in the frontend deployment environ
 
 ## Verification
 
-The deployed application has been verified to load the backend health endpoint and complete a production login.
+## Verification
+
+Frontend linting and production builds have passed during development. The deployed application has been verified to load the backend health endpoint and complete a production login.
 
 Initial production integration is working. However, automated tests, broader end-to-end testing, and regression testing across all features remain ongoing.
 
